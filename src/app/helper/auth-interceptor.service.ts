@@ -5,10 +5,8 @@ import {Observable} from "rxjs";
 
 const TOKEN_HEADER_KEY = 'Authorization'
 
-@Injectable({
-  providedIn: 'root'
-})
-export class AuthInterceptorService implements HttpInterceptor {
+@Injectable()
+  export class AuthInterceptorService implements HttpInterceptor {
 
   constructor(private tokenService: TokenStorageService) {
   }
@@ -27,7 +25,6 @@ export class AuthInterceptorService implements HttpInterceptor {
 }
 export const authInterceptorProviders = {
   provide: HTTP_INTERCEPTORS,
-  userClass: AuthInterceptorService,
   multi: true,
-  useFactory: () => {}
+  useClass: AuthInterceptorService,
 }

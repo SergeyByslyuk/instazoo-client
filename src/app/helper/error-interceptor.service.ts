@@ -3,10 +3,9 @@ import {HTTP_INTERCEPTORS, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest}
 import {TokenStorageService} from "../service/token-storage.service";
 import {NotificationService} from "../service/notification.service";
 import {catchError, Observable, throwError} from "rxjs";
+import {AuthInterceptorService} from "./auth-interceptor.service";
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class ErrorInterceptorService implements HttpInterceptor {
 
   constructor(private  tokenService: TokenStorageService,
@@ -28,7 +27,6 @@ export class ErrorInterceptorService implements HttpInterceptor {
 }
 export const authErrorInterceptorProvider = {
   provide: HTTP_INTERCEPTORS,
-  userClass: ErrorInterceptorService,
   multi: true,
-  useFactory: () => {}
+  useClass: ErrorInterceptorService,
 }

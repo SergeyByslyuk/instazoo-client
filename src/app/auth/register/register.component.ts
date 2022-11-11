@@ -26,7 +26,7 @@ export class RegisterComponent implements OnInit {
 
   createRegisterForm(): FormGroup {
     return this.fb.group({
-      email: ['', Validators.compose([Validators.required])],
+      email: ['', Validators.compose([Validators.required, Validators.email])],
       username: ['', Validators.compose([Validators.required])],
       firstname: ['', Validators.compose([Validators.required])],
       lastname: ['', Validators.compose([Validators.required])],
@@ -39,25 +39,20 @@ export class RegisterComponent implements OnInit {
   }
 
   submit(): void {
+    console.log(this.registerForm.value)
     this.authService.register( {
       email: this.registerForm.value.email,
-      username: this.registerForm.value.email,
+      username: this.registerForm.value.username,
       firstname: this.registerForm.value.firstname,
       lastname: this.registerForm.value.lastname,
       password: this.registerForm.value.password,
       confirmPassword: this.registerForm.value.confirmPassword,
     }).subscribe(data => {
       console.log(data);
-
-      // this.tokenStorage.saveToken(data.token);
-      // this.tokenStorage.saveUser(data);
-
-      this.notificationService.showSnackBar('Successfully registered in');
-      this.router.navigate(['/'])
-      window.location.reload()
+      this.notificationService.showSnackBar('Successfully Registered');
     }, error => {
       console.log(error);
-      this.notificationService.showSnackBar(error.message)
+      this.notificationService.showSnackBar("Something went wrong during registration")
     })
   }
 
